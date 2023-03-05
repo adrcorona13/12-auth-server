@@ -1,5 +1,8 @@
 const express = require("express");
 const cors = require("cors");
+require('dotenv').config();
+
+console.log(process.env);
 
 // Crear el servidor/app de express
 const app = express();
@@ -17,6 +20,6 @@ app.use("/api/auth", require("./routes/auth.routes"));
 
 // END: Middleware
 
-app.listen(4000, () => {
-  console.log(`Servidor corriendo en puerto ${4000}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Servidor corriendo en puerto ${process.env.PORT}`);
 });
