@@ -2,12 +2,13 @@ const express = require("express");
 const cors = require("cors");
 require('dotenv').config();
 
-console.log(process.env);
-
 // Crear el servidor/app de express
 const app = express();
 
 // BEGIN: Middleware
+
+// Directorio público
+app.use(express.static('public'))
 
 // Cors
 app.use(cors());
