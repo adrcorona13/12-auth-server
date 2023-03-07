@@ -1,5 +1,6 @@
 const Usuario = require('../models/UsuarioModel')
 const bcrypt = require('bcryptjs')
+const { generarJWT } = require('../helpers/jwt.helper')
 
 const crearUsuario = async (req, res) => {
   const { email, name, password } = req.body;
@@ -33,6 +34,8 @@ const crearUsuario = async (req, res) => {
 
   // Generar JWT
 
+  const token = await generarJWT(dbUser.id, name);
+
   // Crear usuario en BD
   await dbUser.save();
 
@@ -41,7 +44,8 @@ const crearUsuario = async (req, res) => {
   return res.status(200).json({
     ok: true,
     uid: dbUser.id,
-    name
+    name,
+    token
   });
 };
 
