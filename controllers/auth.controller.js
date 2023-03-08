@@ -49,11 +49,45 @@ const crearUsuario = async (req, res) => {
   });
 };
 
-const loginUsuario = (req, res = response) => {
-  return res.json({
-    ok: true,
-    msg: "Login de usuario /",
-  });
+const loginUsuario = async (req, res = response) => {
+
+  const {email, password} = req.body;
+
+  try {
+    const dbUser = await Usuario.findOne({ email });
+    
+    if (!dbUser) {
+      return res.status(500).json({
+        ok: false,
+        msg: "El correo no existe",
+      });  
+    }
+    
+    const validPassword = bcrypt.compareSync( password, dbUser.password);
+    
+    if (!validPassword) {
+      return res.status(500).json({
+        ok: false,
+        msg: "El password es incorrecto",
+      });  
+    }
+
+    const token = await generarJWT(dbUser.id, dbUser.name);
+
+    return res.json({
+      ok: true,
+      uid: dbUser.id,
+      name: dbUser.name,
+      token
+    });  
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: "Ocurrió un error",
+    });
+  }
 };
 
 const renovarToken = (req, res) => {
