@@ -90,10 +90,17 @@ const loginUsuario = async (req, res = response) => {
   }
 };
 
-const renovarToken = (req, res) => {
+const renovarToken = async (req, res) => {
+
+  const {uid,name} = req;
+
+  const token = await generarJWT(uid, name);
+
   return res.json({
     ok: true,
-    msg: "Renovar JWT /renew",
+    uid, 
+    name, 
+    token
   });
 };
 
