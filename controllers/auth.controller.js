@@ -34,7 +34,7 @@ const crearUsuario = async (req, res) => {
 
   // Generar JWT
 
-  const token = await generarJWT(dbUser.id, name);
+  const token = await generarJWT(dbUser.id, name, email);
 
   // Crear usuario en BD
   await dbUser.save();
@@ -45,12 +45,13 @@ const crearUsuario = async (req, res) => {
     ok: true,
     uid: dbUser.id,
     name,
+    email,
     token
   });
 };
 
 const loginUsuario = async (req, res = response) => {
-
+  console.log('Login');
   const {email, password} = req.body;
 
   try {
@@ -72,12 +73,13 @@ const loginUsuario = async (req, res = response) => {
       });  
     }
 
-    const token = await generarJWT(dbUser.id, dbUser.name);
+    const token = await generarJWT(dbUser.id, dbUser.name, dbUser.email);
 
     return res.json({
       ok: true,
       uid: dbUser.id,
       name: dbUser.name,
+      email: dbUser.email,
       token
     });  
 
@@ -91,15 +93,18 @@ const loginUsuario = async (req, res = response) => {
 };
 
 const renovarToken = async (req, res) => {
+  console.log('token');
+  const {uid} = req;
 
-  const {uid,name} = req;
+  const dbUser = await Usuario.findById(uid);
 
-  const token = await generarJWT(uid, name);
+  const token = await generarJWT(uid, dbUser.name, dbUser.email);
 
   return res.json({
     ok: true,
     uid, 
-    name, 
+    name: dbUser.name, 
+    email: dbUser.email,
     token
   });
 };
