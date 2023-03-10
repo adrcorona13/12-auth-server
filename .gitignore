@@ -1,5 +1,4 @@
-node_modules
-.env
+node_modules/
 public/3rdpartylicenses.txt
 public/11.8916b4a260ca8a2f.js
 public/902.2cf15fc4a5777cef.js
@@ -78,3 +77,7 @@ public/assets/fonts/poppins/Poppins-Thin.ttf
 public/assets/fonts/poppins/Poppins-ThinItalic.ttf
 public/assets/images/bg-01.jpg
 public/assets/images/icons/favicon.ico
+public/index.html
+public/main.71d6d27552b1760e.js
+public/index.html
+public/index.html
