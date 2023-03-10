@@ -88,6 +88,7 @@ const loginUsuario = async (req, res = response) => {
     return res.status(500).json({
       ok: false,
       msg: "Ocurrió un error",
+      error
     });
   }
 };
